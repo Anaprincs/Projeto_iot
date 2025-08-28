@@ -17,7 +17,7 @@ class SensorCreate extends Component
 
     protected $rules = [
         'ambiente_id' => 'required',
-        'codigo' => 'unique|required',
+        'codigo' => 'unique:sensors,codigo|required',
         'tipo' => 'required',
         'descricao' => 'required',
         'status' => 'required'
@@ -25,7 +25,7 @@ class SensorCreate extends Component
 
     protected $messages = [
         'ambiente_id.required' => 'Este campo é obrigatorio',
-        'codigo|unique' => 'Este campo é único',
+        'codigo.unique' => 'Este campo é único',
         'codigo.required' => 'Este campo é obrigatorio',
         'descricao.required' => ' A descricao é obrigatoria',
         'status.required' => 'O status é necessario'
@@ -35,6 +35,7 @@ class SensorCreate extends Component
 
     public function store()
     {
+        $this->validate();
         Sensor::create([
             'ambiente_id' => $this->ambiente_id,
             'codigo' => $this->codigo,
@@ -43,7 +44,7 @@ class SensorCreate extends Component
             'status' => $this->status
         ]);
         session()->flash('success', 'Cadastro Realizado');
-        // return redirect()->route('admin.index');
+         return redirect()->route('sensor.index');
 
     }
 

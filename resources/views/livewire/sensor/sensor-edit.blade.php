@@ -12,13 +12,12 @@
 
 
             <!-- Título com Fonte, Cor e Negrito -->
-            <h2 class="text-center mb-4" style="font-family: 'Arial', sans-serif; color: #a016a0; font-weight: bold;">
-                <i class="bi bi-pencil"></i> Cadastro
+            <h2 class="text-center mb-4" style="font-family: 'Arial', sans-serif; color: #b20505; font-weight: bold;"> Editar
             </h2>
 
             <div class="card shadow-lg border-0">
                 <div class="card-body">
-                    <form wire:submit.prevent="store">
+                    <form wire:submit.prevent="salvar">
 
 
                         <!-- Campo ambiente -->
@@ -26,7 +25,7 @@
                         <div class="mb-3">
                             <label for="ambiente_id" class="form-label fw-bold">AMBIENTE</label>
 
-                            <select class="form-select form-select-sm" aria-label="Small select example">
+                            <select class="form-select form-select-sm" aria-label="Small select example" wire:model.defer="ambiente_id">
                                 @foreach ($ambientes as $a)
                                     <option value="{{ $a->id }}">{{ $a->nome }}</option>
                                 @endforeach
@@ -39,8 +38,8 @@
 
 
                         <div class="form-group mb-3">
-                            <label for="password" class="form-label fw-bold"> CODIGO</label>
-                            <input type="text" id="codigo" class="form-control">
+                            <label for="codigo" class="form-label fw-bold"> CODIGO</label>
+                            <input type="text" id="codigo" wire:model.defer="codigo" class="form-control">
                             @error('codigo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -48,20 +47,24 @@
 
                         <div class="form-group mb-3">
                             <label for="tipo" class="form-label fw-bold">TIPO</label>
-                            <input type="text" wire:model="tipo" id="tipo" class="form-control">
+                            <input type="text" wire:model.defer="tipo" id="tipo" class="form-control">
                             @error('tipo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="descricao" class="form-label fw-bold">DESCRIÇÃO</label>
-                            <textarea class="form-control" id="descricao" rows="3"></textarea>
+                            <label for="descricao" class="form-label fw-bold" >DESCRIÇÃO</label>
+                            <textarea class="form-control" id="descricao" wire:model.defer="descricao" rows="3"></textarea>
+                            @error('descricao')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label for="status" class="form-label fw-bold">TIPO</label>
-                            <input type="text" wire:model="status" id="status" class="form-control">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="status"
+                                wire:model.defer="status">
+                            <label class="form-check-label fw-bold" for="status">STATUS</label>
                             @error('status')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -70,22 +73,12 @@
 
                         <!-- Botões Centralizados -->
 
-
-                        <div class="d-flex justify-content-center mt-4">
-                            <div class="d-flex justify-content-center mt-4">
-                                <button type="submit" class="btn btn-success ">Cadastrar</button>
-                                <a class="btn btn-danger mx-2">Cancelar</a>
-                            </div>
-                            {{-- <a href="{{ route('admin.index') }}" class="btn btn-secondary btn-lg w-48 mx-2">
-                                <i class="bi bi-arrow-left-circle"></i> Voltar
-                            </a> --}}
-                        </div>
-
-
+                                <a href="{{ route('sensor.index') }}"><input class="btn btn-success" type="submit" value="Cadastrar"></a>
+                                <a href="{{ route('sensor.index') }}" class="btn btn-danger ">Voltar</a>
+            
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

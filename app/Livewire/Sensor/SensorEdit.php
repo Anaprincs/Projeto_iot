@@ -2,21 +2,40 @@
 
 namespace App\Livewire\Sensor;
 
+use App\Models\Ambiente;
 use App\Models\Sensor;
 use Livewire\Component;
 
 class SensorEdit extends Component
 {
 
+    public function rules(){
+        return[ 
+            'codigo' =>'unique:sensors,codigo' . $this->sensorId
+        ];
+    }
+
+
+    protected $messages = [
+        'codigo.unique' => ' O campo é unico',
+    ];
+
     public $ambiente_id;
     public $codigo;
     public $tipo;
     public $descricao;
     public $status;
+    public $sensor_Id;
 
 
 public function mount($id){
     $sensor = Sensor::find($id);
+
+if ($sensor == null) {
+    return redirect()->route('sensor.index');
+}
+
+    $this->sensor_Id = $sensor->id ;
     $this->ambiente_id = $sensor->ambiente_id;
     $this->codigo = $sensor->codigo;
     $this->tipo = $sensor->tipo;
@@ -25,7 +44,7 @@ public function mount($id){
 }
 public function salvar()
     {
-        $sensor = Sensor::findOrFail($this->administradorId);
+        $sensor = Sensor::findOrFail($this->sensor_Id);
         
 
 
@@ -35,15 +54,16 @@ public function salvar()
         $sensor->descricao = $this->descricao;
         $sensor->status = $this->status;        
         $sensor->save();
-        session()->flash('succes', 'Administrador Atualizado');
+        session()->flash('succes', 'Cadastro Atualizado');
 
-        return ;//redirect()->route('admin.index');
+        return redirect()->route('sensor.index');
     }
 
 
 
     public function render()
     {
-        return view('livewire.sensor.sensor-edit');
+        $ambientes= Ambiente::all();
+        return view('livewire.sensor.sensor-edit', compact('ambientes'));
     }
 }

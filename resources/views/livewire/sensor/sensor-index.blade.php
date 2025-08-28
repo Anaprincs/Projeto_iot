@@ -2,57 +2,63 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <!-- Título com Novo Ícone e Cor -->
-            <h2 class="text-center mb-4" style="font-family: 'Poppins', sans-serif; color: #9a248e; font-weight: 600;">
-                <i class="bi bi-box"></i> Sensores
+            <h2 class="text-center mb-4" style="font-family: 'Poppins', sans-serif; color: #9a2424; font-weight: 600;">
+            SENSORES
             </h2>
         </div>
         <div class="col-md-6 text-end">
-            <a class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle"></i>Novo Sensor
-            </a>
+            <a href="{{ route('sensor.create') }}" class="btn btn-primary btn-lg">NOVO SENSOR </a>
         </div>
     </div>
 
-    <div class="card shadow-lg">
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <input type="text" wire:model.debounce.300ms="search" 
-                        class="form-control" placeholder="Buscar Sensores...">
-                </div>
-                <div class="col-md-3">
-                    <select wire:model="perPage" class="form-select">
-                        <option value="10">10 por página</option>
-                        <option value="25">25 por página</option>
-                        <option value="50">50 por página</option>
-                        <option value="100">100 por página</option>
-                    </select>
+                    <input class="form-control" type="search" name="search" placeholder="Buscar Sensores"
+                        aria-label="search" wire:model.live="search">
                 </div>
             </div>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th></th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach ($sensor as $a)
+                            <td> {{ $a->codigo}}</td>
+                            <td> {{ $a->tipo }}</td>
+                            <td> {{ $a->descricao }}</td>
+                            <td> {{ $a->status }}</td>
 
-            @if(session()->has('message'))
-                <div class="alert alert-success text-center">
-                    {{ session('message') }}
-                </div>
-            @endif
+                            <td>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Imagem</th>
-                            <th>ambiente</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="mt-3">
-                
-            </div>
+                                <a href="{{ route('sensor.edit', $a->id) }}" class="btn btn-sm btn-warning"
+                                    title="Editar Sensor">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button wire:click="delete({{ $a->id }})" class="btn btn-sm btn-danger"
+                                    title="Excluir Sensor"
+                                    onclick="return confirm('Tem certeza que deseja excluir este sensor?')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    </div>
+        </div>
+        {{ $sensor->links() }}
+   
+</div>
+
+
 </div>
