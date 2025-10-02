@@ -12,7 +12,9 @@ class Sensor extends Model
     protected $fillable = [
         'ambiente_id',
         'codigo',
-        'tipo'
+        'tipo',
+        'descricao',
+        'status'
     ];
 public function registos(){
 
