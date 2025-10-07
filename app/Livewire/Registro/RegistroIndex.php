@@ -8,18 +8,13 @@ use Livewire\WithPagination;
 
 class RegistroIndex extends Component
 {
-    
-    public $sensor_id;
-    public $valor;
-    public $unidade;
-    public $data_hora;
 
     use WithPagination;
 
     public $search = '';
     public $perPage = 15;
 
-    protected $queryString =[
+    protected $queryString = [
         'search' => ['except' => ''],
         'perPage' => ['except' => 15],
     ];
@@ -27,8 +22,8 @@ class RegistroIndex extends Component
     public function delete($id)
     {
         $registro = Registro::find($id);
-        if($registro != null){
-            $sensor_id =$registro->sensor->id;
+        if ($registro != null) {
+            $sensor_id = $registro->sensor->id;
             $registro->delete();
             Registro::find($sensor_id)->delete();
         }
@@ -36,24 +31,15 @@ class RegistroIndex extends Component
     }
 
 
-
-    public function index(){
-        $registro = Registro::find();
-        $this->sensor_id = $registro->sensor->id;
-        $this->valor = $registro->valor;
-        $this->unidade = $registro->unidade;
-        $this->data_hora = $registro->data_hora;
-    }
-
-     public function render()
+    public function render()
     {
-       $registros = Registro::where('sensor_id', 'like', "%{$this->search}%")
-            ->orWhere('valor', 'like', "%{$this->search}%")
-            ->orWhere('unidade', 'like', "%{$this->search}%")
-            ->orWhere('data_hora', 'like', "%{$this->search}%")
-            ->orderBy('data_hora', 'desc')
+        $registros = Registro::where('sensor_id', 'like', "%{$this->search}%")
+            // ->orWhere('valor', 'like', "%{$this->search}%")
+            // ->orWhere('unidade', 'like', "%{$this->search}%")
+            // ->orWhere('data_hora', 'like', "%{$this->search}%")
+            ->orderBy('id', 'desc')
             ->paginate($this->perPage);
-            //->get();
+        //->get();
 
         //dd($registros);
         return view('livewire.registro.registro-index', compact('registros'));

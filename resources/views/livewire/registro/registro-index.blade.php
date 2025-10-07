@@ -22,6 +22,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Id Sensor</th>
                         <th>valor</th>
                         <th>unidade</th>
                         <th>data hora</th>
@@ -31,6 +32,7 @@
                 <tbody>
                     <tr>
                         @foreach ($registros as $a)
+                           <td> {{ $a->id }}</td>
                             <td> {{ $a->sensor_id}}</td>
                             <td> {{ $a->valor }}</td>
                             <td> {{ $a->unidade }}</td>

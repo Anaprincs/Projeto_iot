@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Validate;
 
 class RegistroRequest extends FormRequest
 {
@@ -22,20 +26,34 @@ class RegistroRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sensor_id' => 'required',
-            'valor' => 'required',
+            'cod_sensor' => 'required',
+            'valor' => 'required|numeric',
             'unidade' => 'required',
-            'data_hora' => 'required'
+            
         ];
     }
 
-public function messages()
-{
-    return[
-        'sensor.required' => 'Este campo é obrigatorio',
-        'valor.required' => 'Este campo é obrigatorio',
-        'unidade.required' => 'Este campo é obrigatorio',
-        'data_hora.required' => 'Este campo é obrigatorio',
-    ];
-}
+
+    public function faileValidation(Validator $validator){
+        if ($this->expectsjson()){
+            throw new HttpResponseException(response()->json([
+                'success' =>false,
+                'message' => 'Erro de validação',
+                'errors' => $validator->errors()
+            ],422));
+        }
+
+        throw new ValidationException($validator);
+    }
+
+     public function messages()
+    {
+        return [
+            'cod_sensor.required' => 'O codigo do sensor é obrigatorio',
+            'valor.required' => 'Este campo é obrigatorio',
+            'unidade.required' => 'Este campo é obrigatorio',
+            'valor.numeric' => 'Este campo precisa ser numerico',
+        ];
+    }
+
 }

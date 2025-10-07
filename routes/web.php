@@ -18,10 +18,7 @@ use App\Livewire\Registro\RegistroIndex;
 use App\Livewire\Sensor\SensorCreate;
 use App\Livewire\Sensor\SensorEdit;
 use App\Livewire\Sensor\SensorIndex;
-use App\Models\Sensor;
-
-use Illuminate\Support\Facades\Route;
-
+use App\Models\Sensor;                                                          
 
 Route::get('/', Dashboard::class);
 
