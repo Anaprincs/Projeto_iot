@@ -34,6 +34,6 @@ class Dashboard extends Component
     {
 
 
-        return view('livewire.dashboard', compact('dashboard'));
+        return view('livewire.dashboard');
     }
 }

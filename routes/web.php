@@ -4,6 +4,7 @@
 use App\Livewire\Ambiente\AmbienteCreate;
 use App\Livewire\Ambiente\AmbienteEdit;
 use App\Livewire\Ambiente\Ambientelist;
+use App\Livewire\Auth\Login;
 use App\Models\Ambiente;
 use Illuminate\Support\Facades\Route;
 
@@ -18,14 +19,19 @@ use App\Livewire\Registro\RegistroIndex;
 use App\Livewire\Sensor\SensorCreate;
 use App\Livewire\Sensor\SensorEdit;
 use App\Livewire\Sensor\SensorIndex;
-use App\Models\Sensor;                                                          
+use App\Models\Sensor;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
-Route::get('/', Dashboard::class);
 
-Route::get('registro/index', RegistroIndex::class);
+Route::get('registro/index', RegistroIndex::class)->middleware('auth', 'user_type:user');
 
-Route::get('sensor/create', SensorCreate::class)->name('sensor.create');
-Route::get('sensor/index',SensorIndex::class)->name('sensor.index');
-Route::get('sensor/edit/{id}',SensorEdit::class)->name('sensor.edit');
+Route::get('sensor/create', SensorCreate::class)->name('sensor.create')->middleware('auth', 'user_type:user');
+Route::get('sensor/index',SensorIndex::class)->name('sensor.index')->middleware('auth', 'user_type:user');
+Route::get('sensor/edit/{id}',SensorEdit::class)->name('sensor.edit')->middleware('auth', 'user_type:user');
+
+Route::get('/', Login::class)->name('login');
+Route::get('/dashboard', Dashboard::class)->name('dashboard')->middleware('auth', 'user_type:user');
+
 
 

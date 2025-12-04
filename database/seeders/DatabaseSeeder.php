@@ -13,10 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        User::factory()->create([
+            'name' =>'Test',
+            'email' => 'test@example.com',
+            'password' => '123456'
+        ]);
+
         $this->call([
             AmbienteSeeder::class,
             SensorSeeder::class,
-            RegistroSeeder::class
+            RegistroSeeder::class,
+        
         ]);
     
     }
